@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Trook" default="help">
+
+    <!-- The local.properties file is created and updated by the 'android' tool.
+         It contains the path to the SDK. It should *NOT* be checked in in Version
+         Control Systems. -->
+    <property file="local.properties" />
+
+    <!-- The build.properties file can be created by you and is never touched
+         by the 'android' tool. This is the place to change some of the default property values
+         used by the Ant rules.
+         Here are some properties you may want to change/update:
+
+         application.package
+             the name of your application package as defined in the manifest. Used by the
+             'uninstall' rule.
+         source.dir
+             the name of the source directory. Default is 'src'.
+         out.dir
+             the name of the output directory. Default is 'bin'.
+
+         Properties related to the SDK location or the project target should be updated
+          using the 'android' tool with the 'update' action.
+
+         This file is an integral part of the build system for your application and
+         should be checked in in Version Control Systems.
+
+         -->
+    <property file="build.properties" />
+
+    <!-- The default.properties file is created and updated by the 'android' tool, as well
+         as ADT.
+         This file is an integral part of the build system for your application and
+         should be checked in in Version Control Systems. -->
+    <property file="default.properties" />
+
+    <!-- Custom Android task to deal with the project target, and import the proper rules.
+         This requires ant 1.6.0 or above. -->
+    <path id="android.antlibs">
+        <pathelement path="${sdk.dir}/tools/lib/anttasks.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/sdklib.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/androidprefs.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/apkbuilder.jar" />
+        <pathelement path="${sdk.dir}/tools/lib/jarutils.jar" />
+    </path>
+
+    <target name="runtests" depends="compiletests">
+      <junit haltonerror="false" haltonfailure="false">
+        <classpath>
+          <fileset dir="${external-libs-folder}" includes="*.jar"/>
+          <pathelement path="${out-classes}"/>
+          <pathelement path="${out-test-classes}"/>
+          <fileset dir="${libs-test-folder}" includes="*.jar"/>
+        </classpath>
+        <batchtest>
+          <formatter type="plain" usefile="false"/>
+          <fileset dir="${source-test-folder}">
+            <include name="**/*Test*.java"/>
+            <exclude name="**/AllTests.java"/>
+          </fileset>
+        </batchtest>
+      </junit>
+    </target>
+
+    <target name="compiletests" depends="compile">
+      <mkdir dir="${out-test-classes}"/>
+      <javac encoding="ascii" target="1.5" debug="true" extdirs=""
+             destdir="${out-test-classes}"
+             bootclasspathref="android.target.classpath">
+        <compilerarg value="-Xlint"/>
+        <src path="${source-test-folder}" />
+        <classpath>
+          <fileset dir="${external-libs-folder}" includes="*.jar"/>
+          <pathelement path="${out-classes}"/>
+          <fileset dir="${libs-test-folder}" includes="*.jar"/>
+        </classpath>
+      </javac>
+    </target>
+
+    <taskdef name="setup"
+        classname="com.android.ant.SetupTask"
+        classpathref="android.antlibs" />
+
+    <!-- Execute the Android Setup task that will setup some properties specific to the target,
+         and import the build rules files.
+
+         The rules file is imported from
+            <SDK>/platforms/<target_platform>/templates/android_rules.xml
+
+         To customize some build steps for your project:
+         - copy the content of the main node <project> from android_rules.xml
+         - paste it in this build.xml below the <setup /> task.
+         - disable the import by changing the setup task below to <setup import="false" />
+
+         This will ensure that the properties are setup correctly but that your customized
+         build steps are used.
+    -->
+    <setup />
+
+</project>

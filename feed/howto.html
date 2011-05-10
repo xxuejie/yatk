@@ -1,0 +1,28 @@
+<html><head><title>Installing Apps</title></head>
+<body>
+<h3>How to configure your nook to install apps</h3>
+<p>You'll need to allow your nook to install 3rd party applications
+to install any of these apps here.</p>
+
+<p>What I've done is to update the <tt>settings.db</tt> using
+<tt>sqlite3</tt>. Here are my commands (in bold) lines broken
+for readability -- please run all commands on a single line.</p>
+
+<pre>
+$ <b>adb shell</b>   &lt;-- from my PC
+# <b>cd /data/data/
+        com.android.providers.settings/databases</b>
+# <b>sqlite3 settings.db</b>
+SQLite version 3.5.9
+Enter ".help" for instructions
+sqlite&gt; <b>update secure set value=1
+        where name='install_non_market_apps';</b>
+sqlite&gt; <b>.q</b>
+# <b>Ctrl-D</b>
+$ 
+</pre>
+Reboot your Nook, and it should now allow 3rd-party installs to occur
+from Trook.
+</body>
+</html>
+

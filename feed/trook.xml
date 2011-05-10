@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>http://nookapps.googlecode.com/svn/trunk/feed/trook.xml</id>
+  <title>Trook news, documentation</title>
+  <author><name>Trook</name></author>
+  <entry>
+    <title>Trook rev68</title>
+    <link type="application/vnd.android.package-archive"
+          href="http://nookapps.googlecode.com/files/Trook-debug.apk"/>
+    <id>http://nookapps.googlecode.com/files/Trook-debug.apk</id>
+    <content type="text">Revision 68 is another small bug-fix revision. Oh, and one more thing... it integrates with calibre2opds (2.2 upwards) which exports your Calibre collection directly onto the nook along with tags, authors, book blurbs, images etc allowing you to navigate through large numbers of books conveniently.</content>
+
+  </entry>
+  <entry>
+    <title>Documentation</title>
+    <link type="text/html"
+          href="http://code.google.com/p/nookapps/wiki/TrookDocumentation"/>
+    <id>http://code.google.com/p/nookapps/wiki/TrookDocumentation</id>
+    <content type="text">Online documentation/FAQ about Trook</content>
+  </entry>
+  <entry>
+    <title>Forum</title>
+    <link type="application/atom+xml"
+          href="http://groups.google.com/group/trookhub/feed/atom_v1_0_msgs.xml"/>
+    <id>http://groups.google.com/group/trookhub/feed/atom_v1_0_msgs.xml</id>
+    <content type="text">Latest posts on the Trook forum</content>
+  </entry>
+</feed>

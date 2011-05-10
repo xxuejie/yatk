@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>http://nookapps.googlecode.com/svn/trunk/feed/appfeed.xml</id>
+  <title>Nook related</title>
+  <author><name>Trook</name></author>
+  <entry>
+    <title>HOWTO</title>
+    <link type="text/html" href="http://nookapps.googlecode.com/svn/trunk/feed/howto.html"/>
+    <content type="text">How to enable your nook to install market applications</content>
+  </entry>
+
+  <entry>
+    <title>Nook Browser</title>
+    <link type="application/vnd.android.package-archive"
+          href="http://nookapps.googlecode.com/files/NookBrowser.apk"/>
+    <id>http://nookapps.googlecode.com/files/NookBrowser.apk</id>
+    <content type="text">Version 0.0.2 of Hari Swaminathan's nook-tweaked browser (this is mirrored from Nookdevs.)</content>
+  </entry>
+
+  <entry>
+    <title>Trook</title>
+    <link type="application/vnd.android.package-archive"
+          href="http://nookapps.googlecode.com/files/Trook-debug.apk"/>
+    <id>http://nookapps.googlecode.com/files/Trook-debug.apk</id>
+    <content type="text">The latest version (rev 32) of Trook. This version can browse your local book folders, save feeds as bookmarks, and search catalogs, a UI cleanup and some minor bug fixes.</content>
+  </entry>
+
+  <entry>
+    <title>Nook Launcher</title>
+    <link type="application/vnd.android.package-archive"
+          href="http://nooklauncher.googlecode.com/files/NookLauncher-debug.apk"/>
+    <id>http://nooklauncher.googlecode.com/files/NookLauncher-debug.apk</id>
+    <content type="text">A simplistic app launcher</content>
+  </entry>
+</feed>
