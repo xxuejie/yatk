@@ -992,7 +992,12 @@ public class Trook extends Activity
         // Let me know if you have other suggestions on how to manage
         // this.
 
-        String author = "Unknown";
+
+        String author = ei.getAuthor();
+        if ((author == null) || (author.length() == 0)) {
+          author = "Unknown";
+        }
+        author = FileNameUtil.regularFileName(author);
 
         // Determine a top-level root.
         String root;

@@ -11,11 +11,16 @@ import java.net.URI;
 import org.apache.http.client.utils.URIUtils;
 
 import java.util.Date;
+import java.io.BufferedReader;
+import java.io.CharArrayReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 
 public class AsyncFeedParserTask
@@ -41,7 +46,6 @@ public class AsyncFeedParserTask
         }
 
         m_fi = new FeedInfo(m_basefile);
-
         try {
             if (parse(inps[0])) {
                 return "ok";
@@ -120,6 +124,23 @@ public class AsyncFeedParserTask
     private boolean parse(Reader inp)
         throws IOException, XmlPullParserException
     {
+/*      BufferedReader reader = new BufferedReader(inp);
+      StringBuilder l = new StringBuilder();
+      String tmp;
+      while ((tmp = reader.readLine()) != null) {
+        l.append(tmp).append("\n");
+      }
+      try {
+        PrintWriter writer = new PrintWriter(new FileWriter("/system/media/sdcard/my documents/downloads/"
+          + System.currentTimeMillis() + ".xml"));
+        writer.write(l.toString());
+        writer.flush();
+        writer.close();
+      } catch (UnsupportedEncodingException e) {
+      } catch (IOException e) {
+      }
+      inp = new StringReader(l.toString());*/
+
         XmlPullParser p = Xml.newPullParser();
         p.setInput(inp);
         P.skipToStart(p, null);

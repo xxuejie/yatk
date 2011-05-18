@@ -19,6 +19,7 @@ public class P
         StringBuffer sb = new StringBuffer();
         p.require(XmlPullParser.START_TAG, null, null);
         int nest = 0;
+
         while ((type = p.next()) != XmlPullParser.END_DOCUMENT) {
             if (type == XmlPullParser.TEXT) {
                 sb.append(p.getText());
@@ -33,6 +34,9 @@ public class P
                 else {
                     nest--;
                 }
+            }
+            else if (type == XmlPullParser.CDSECT) {
+                sb.append(p.getText());
             }
         }
         p.require(XmlPullParser.END_TAG, null, null);
