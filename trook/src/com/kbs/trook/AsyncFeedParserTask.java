@@ -11,8 +11,12 @@ import java.net.URI;
 import org.apache.http.client.utils.URIUtils;
 
 import java.util.Date;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.Reader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public class AsyncFeedParserTask
     extends AsyncTask<Reader,FeedInfo.EntryInfo,String>
@@ -37,6 +41,7 @@ public class AsyncFeedParserTask
         }
 
         m_fi = new FeedInfo(m_basefile);
+
         try {
             if (parse(inps[0])) {
                 return "ok";
@@ -101,6 +106,7 @@ public class AsyncFeedParserTask
         m_error = m_basefile +": failed to load\n"+msg;
     }
 
+    @Override
     public final String fix(String fix)
     {
         if (m_fixer != null) {
@@ -129,30 +135,39 @@ public class AsyncFeedParserTask
         return false;
     }
 
+    @Override
     public FeedInfo getFeedInfo()
     { return m_fi; }
 
+    @Override
     public String getStringResource(int v)
     { return m_trook.getResources().getString(v); }
 
+    @Override
     public void log(String cl, String m)
     { Log.d(cl, m); }
 
+    @Override
     public void log(String cl, String m, Throwable t)
     { Log.d(cl, m, t); }
 
+    @Override
     public void setResolvePath(String s)
     { m_resolvepath = s; }
 
+    @Override
     public String getResolvePath()
     { return m_resolvepath; }
- 
+
+    @Override
     public void setStanzaSearchUrl(String s)
     { m_stanzasearchurl = s; }
 
+    @Override
     public void setOpenSearchUrl(String s)
     { m_opensearchurl = s; }
 
+    @Override
     public void publishProgress1(FeedInfo.EntryInfo... v)
     { publishProgress(v); }
 

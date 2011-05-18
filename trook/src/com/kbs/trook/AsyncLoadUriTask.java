@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.BufferedReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.HttpURLConnection;
@@ -137,10 +138,10 @@ public class AsyncLoadUriTask
     private final Reader realRun()
         throws IOException
     {
-        URL url = new URL(m_uri);
-        InputStream inp = null;
-        pp("Fetching...");
+            InputStream inp = null;
         try {
+            URL url = new URL(m_uri);
+            pp("Fetching...");
             URLConnection connection = url.openConnection();
             if (!(connection instanceof HttpURLConnection)) {
                 error(m_uri+": can only make http calls");
@@ -172,8 +173,9 @@ public class AsyncLoadUriTask
             bout = null; // gc, just in case.
             stuffIntoCache(contents);
             return new StringReader(contents);
-        }
-        finally {
+        } catch (MalformedURLException e) {
+            return null;
+        } finally {
             if (inp != null) {
                 try { inp.close(); }
                 catch (Throwable th) {}
@@ -197,7 +199,7 @@ public class AsyncLoadUriTask
         }
         else {
             // Remove any cached views
-            m_trook.removeCachedView(m_uri);            
+            m_trook.removeCachedView(m_uri);
             if (m_error != null) {
                 m_trook.displayError(m_error);
             }
@@ -209,7 +211,7 @@ public class AsyncLoadUriTask
         InputStream is = m_cachemgr.getUri(uri);
         if (is != null) {
             return new InputStreamReader(is);
-        }        
+        }
         return null;
     }
 

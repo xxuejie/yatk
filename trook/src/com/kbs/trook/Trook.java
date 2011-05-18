@@ -90,31 +90,36 @@ public class Trook extends Activity
         addButtonSetting
             (sentries, "Open...", "",
              new View.OnClickListener() {
-                 public void onClick(View v)
+                 @Override
+                public void onClick(View v)
                  { doFeedDialog(); }
              });
         addButtonSetting
             (sentries, "Bookmark", "Bookmarks saved under \"My Feeds\"",
              new View.OnClickListener() {
-                 public void onClick(View v)
+                 @Override
+                public void onClick(View v)
                  { bookmarkFeed(); }
              });
         addButtonSetting
             (sentries, "Reset", "Restore default root feed",
              new View.OnClickListener() {
-                 public void onClick(View v)
+                 @Override
+                public void onClick(View v)
                  { setFeedRootPrefs(null); maybeRemoveRootFeed(); }
              });
         m_3g_checkbox = addCheckboxSetting
             (sentries, is3GEnabled(), "Use 3G (with a new sim)",
              new View.OnClickListener() {
-                 public void onClick(View v)
+                 @Override
+                public void onClick(View v)
                  { set3GEnabled(m_3g_checkbox.isChecked()); }
              });
         addButtonSetting
             (sentries, "Exit", "Stop Trook",
              new View.OnClickListener() {
-                 public void onClick(View v)
+                 @Override
+                public void onClick(View v)
                  { finish(); }
              });
 
@@ -123,6 +128,7 @@ public class Trook extends Activity
             m_settingsview.findViewById(R.id.settings_done);
         sd.setOnClickListener
             (new View.OnClickListener() {
+                    @Override
                     public void onClick(View v) {
                         unflipSettingsView();
                     }
@@ -143,7 +149,8 @@ public class Trook extends Activity
         m_dialog.showDialog
             ("Load a feed", "Open feed URL", "http://",
              new OneLineDialog.SubmitListener() {
-                 public void onSubmit(String url) {
+                 @Override
+                public void onSubmit(String url) {
                      if ((url != null) && (url.length() >0)) {
                          Trook.this.pushViewFromUri(url);
                      }
@@ -156,7 +163,8 @@ public class Trook extends Activity
         m_dialog.showDialog
             ("Search", "Enter search terms", null,
              new OneLineDialog.SubmitListener() {
-                 public void onSubmit(String term) {
+                 @Override
+                public void onSubmit(String term) {
                      if ((term != null) && (term.length() >0)) {
                          Trook.this.pushViewFromUri
                              (si.getQueryUriFor(term));
@@ -190,7 +198,7 @@ public class Trook extends Activity
                 }
             }
             m_wifitimelock = null;
-        }                
+        }
     }
 
     // This should only be called from the UI thread
@@ -285,7 +293,7 @@ public class Trook extends Activity
     final void asyncLoadFeedFromUri(String uri)
     {
         m_feedmanager.asyncLoadFeedFromUri(uri);
-    }        
+    }
 
     // Only to be called from UI thread
     final void asyncLoadFeedFromReader(String uri, Reader r)
@@ -504,7 +512,7 @@ public class Trook extends Activity
                 catch (Throwable ign) {}
             }
         }
-    }        
+    }
 
     private Button addButtonSetting
         (ViewGroup vg,
@@ -710,6 +718,7 @@ public class Trook extends Activity
         }
 
         fv.m_search.setOnClickListener(new View.OnClickListener() {
+                @Override
                 public void onClick(View v) {
                     Trook.this.doSearchDialog(si);
                 }
@@ -774,7 +783,7 @@ public class Trook extends Activity
 
         for (FeedInfo.LinkInfo li : ei.getLinks()) {
             String href = li.getAttribute("href");
-            
+
             if (href == null) {
                 continue;
             }
@@ -847,7 +856,7 @@ public class Trook extends Activity
                 doit.setOnClickListener
                     (new LaunchFeed(baseuri, href));
                 if (!iuri_set) {
-                    doit.setImageResource(R.drawable.library);
+                    doit.setImageResource(R.drawable.directory);
                 }
                 did_something = true;
                 // Keep looking, in case there's a better fit.
@@ -914,7 +923,7 @@ public class Trook extends Activity
         if (IMimeConstants.MIME_PDF.equals(type)) {
             return islocal?R.drawable.pdf:R.drawable.pdf_download;
         }
-        
+
         if (IMimeConstants.MIME_PDB.equals(type)) {
             return islocal?R.drawable.pdb:R.drawable.pdb_download;
         }
@@ -983,10 +992,7 @@ public class Trook extends Activity
         // Let me know if you have other suggestions on how to manage
         // this.
 
-        String author = ei.getAuthor();
-        if (author == null) {
-            author = "Unknown";
-        }
+        String author = "Unknown";
 
         // Determine a top-level root.
         String root;
@@ -1162,6 +1168,7 @@ public class Trook extends Activity
         private LaunchFeed(String base, String href)
         { m_base = base; m_href = href; }
 
+        @Override
         public void onClick(View v)
         {
             try {
@@ -1185,6 +1192,7 @@ public class Trook extends Activity
         private DirectoryClicker(String diruri)
         { m_diruri = diruri; }
 
+        @Override
         public void onClick(View v)
         { Trook.this.pushViewFromUri(m_diruri); }
 
@@ -1214,6 +1222,7 @@ public class Trook extends Activity
             }
         }
 
+        @Override
         public void onClick(View v)
         {
             Intent ri = new Intent(m_intent);
@@ -1264,6 +1273,7 @@ public class Trook extends Activity
             m_mimes = new String[1]; m_mimes[0] = mime;
         }
 
+        @Override
         public void onClick(View v)
         {
             try {
@@ -1348,6 +1358,7 @@ public class Trook extends Activity
         private LaunchBrowser(String href)
         { m_href = href; }
 
+        @Override
         public void onClick(View v)
         {
             Intent msg =
@@ -1375,6 +1386,7 @@ public class Trook extends Activity
     {
         Popper(String uri)
         { m_uri = uri; }
+        @Override
         public void onClick(View v)
         { Trook.this.popViewToUri(m_uri); }
         private final String m_uri;
@@ -1385,6 +1397,7 @@ public class Trook extends Activity
     {
         Reloader(String uri)
         { m_uri = uri; }
+        @Override
         public void onClick(View v)
         {
             Trook.this.reloadViewToUri(m_uri);
@@ -1406,6 +1419,7 @@ public class Trook extends Activity
     private final class WVPager
         implements View.OnKeyListener
     {
+        @Override
         public boolean onKey(View v, int keyCode, KeyEvent ev)
         {
             if (ev.getAction() == KeyEvent.ACTION_DOWN) {
@@ -1526,6 +1540,6 @@ public class Trook extends Activity
     private static final int RESET_ID = 4;
     private static final int BOOKMARK_ID = 5;
 
-    // 
+    //
 
 }

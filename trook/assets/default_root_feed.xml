@@ -5,52 +5,27 @@
   <updated>2009-12-26T17:58:39Z</updated>
   <author><name>Trook</name></author>
   <entry>
-    <title>Lexcycle Online Catalog</title>
-    <link type="application/atom+xml" href="http://nookapps.googlecode.com/svn/trunk/feed/freelexcycle.xml"/>
-    <id>http://nookapps.googlecode.com/svn/trunk/feed/freelexcycle.xml</id>
-    <content type="text">Online catalog of free books, hosted by Lexcycle</content>
+    <title>书仓</title>
+    <link type="application/atom+xml" href="http://www.shucang.com/s"/>
+    <id>http://www.shucang.com/s</id>
+    <content type="text">Shucang books</content>
   </entry>
   <entry>
-    <title>New York Times</title>
-    <link type="application/atom+xml" href="http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml"/>
-    <id>http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml</id>
-    <content type="text">New york times</content>
-  </entry>
-  <entry>
-    <title>USA Today</title>
-    <link type="application/atom+xml" href="http://rssfeeds.usatoday.com/usatoday-NewsTopStories"/>
-    <id>http://rssfeeds.usatoday.com/usatoday-NewsTopStories</id>
-    <content type="text">News - Top Stories</content>
-  </entry>
-  <entry>
-    <title>Wikipedia</title>
-    <link type="application/atom+xml" href="asset:wikipedia.xml"/>
-    <id>asset:wikipedia.xml</id>
-    <content type="text">Search Wikipedia and read featured articles.</content>
-  </entry>
-  <entry>
-    <title>Nookdevs</title>
-    <link type="application/atom+xml" href="http://nookdevs.googlecode.com/svn/trunk/updatesfeed.xml"/>
-    <id>http://nookdevs.googlecode.com/svn/trunk/updatesfeed.xml</id>
-    <content type="text">Nook apps, documentation and more from Nookdevs</content>
-  </entry>
-
-  <entry>
-    <title>My Packages</title>
-    <link type="trook/directory" href="file:///system/media/sdcard/my%20packages"/>
-    <id>file:///system/media/sdcard/my%20packages</id>
-    <content type="text">Browse downloaded Android packages.</content>
-  </entry>
-  <entry>
-    <title>My Feeds</title>
-    <link type="trook/directory" href="file:///system/media/sdcard/my%20feeds"/>
-    <id>file:///system/media/sdcard/my%20feeds</id>
-    <content type="text">Browse my saved feeds.</content>
+    <title>Downloaded Books</title>
+    <link type="trook/directory" href="file:///system/media/sdcard/my%20documents/downloads"/>
+    <id>file:///system/media/sdcard/my%20documents</id>
+    <content type="text">Browse my document folders</content>
   </entry>
   <entry>
     <title>My Books</title>
     <link type="application/atom+xml" href="asset:mybooks.xml"/>
     <id>asset:mybooks.xml</id>
     <content type="text">Browse books stored on the Nook</content>
+  </entry>
+  <entry>
+    <title>Trook Menu</title>
+    <link type="application/atom+xml" href="asset:trooks.xml"/>
+    <id>asset:trooks.xml</id>
+    <content type="text">Default trook menu</content>
   </entry>
 </feed>
