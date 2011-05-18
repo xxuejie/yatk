@@ -139,9 +139,9 @@ public class AsyncLoadUriTask
         throws IOException
     {
             InputStream inp = null;
-        try {
             URL url = new URL(m_uri);
             pp("Fetching...");
+        try {
             URLConnection connection = url.openConnection();
             if (!(connection instanceof HttpURLConnection)) {
                 error(m_uri+": can only make http calls");
@@ -173,8 +173,6 @@ public class AsyncLoadUriTask
             bout = null; // gc, just in case.
             stuffIntoCache(contents);
             return new StringReader(contents);
-        } catch (MalformedURLException e) {
-            return null;
         } finally {
             if (inp != null) {
                 try { inp.close(); }

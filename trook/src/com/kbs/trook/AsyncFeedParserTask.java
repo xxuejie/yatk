@@ -147,7 +147,7 @@ public class AsyncFeedParserTask
         String rootname = p.getName();
         for (int i=0; i<s_parsers.length; i++) {
             if (s_parsers[i].canParse(rootname)) {
-                s_parsers[i].parse(p, this);
+                s_parsers[i].parse(m_basefile, p, this);
                 return true;
             }
         }

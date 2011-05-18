@@ -14,10 +14,12 @@ import java.net.URLDecoder;
 public class WikiSearchParser
     implements IFeedParser
 {
+    @Override
     public boolean canParse(String rootelement)
     { return "api".equals(rootelement); }
 
-    public void parse(XmlPullParser p, IFeedParserListener fpl)
+    @Override
+    public void parse(String uri, XmlPullParser p, IFeedParserListener fpl)
         throws IOException, XmlPullParserException
     {
         P.assertStart(p, "api");
@@ -129,7 +131,7 @@ public class WikiSearchParser
     private void addEntry(XmlPullParser p, IFeedParserListener fpl)
         throws XmlPullParserException, IOException
     {
-        
+
         FeedInfo fi = fpl.getFeedInfo();
 
         String title = P.getAttribute(p, "title");

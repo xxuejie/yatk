@@ -7,6 +7,7 @@ import org.xmlpull.v1.XmlPullParser;
 public class RssFeedParser
     implements IFeedParser
 {
+    @Override
     public boolean canParse(String rootelement)
     {
         return
@@ -14,7 +15,8 @@ public class RssFeedParser
             "RDF".equals(rootelement);
     }
 
-    public void parse(XmlPullParser p, IFeedParserListener fpl)
+    @Override
+    public void parse(String uri, XmlPullParser p, IFeedParserListener fpl)
         throws IOException, XmlPullParserException
     {
         // P.assertStart(p, "rss"); or "RDF"

@@ -12,10 +12,12 @@ import android.util.Log;
 public class AtomFeedParser
     implements IFeedParser
 {
+    @Override
     public boolean canParse(String rootelement)
     { return "feed".equals(rootelement); }
 
-    public void parse(XmlPullParser p, IFeedParserListener fpl)
+    @Override
+    public void parse(String uri, XmlPullParser p, IFeedParserListener fpl)
         throws IOException, XmlPullParserException
     {
         P.assertStart(p, "feed");
@@ -77,7 +79,7 @@ public class AtomFeedParser
                         URI base = new URI(fpl.getResolvePath());
                         URI sref =
                             URIUtils.resolve(base, li.getAttribute("href"));
-                        fpl.setOpenSearchUrl(sref.toString());
+                        fpl.setOpenSearchUrl(getHref(uri, sref.toString()));
                         // This is a very goofy way to do this, I'm sorry
                         fpl.publishProgress1((FeedInfo.EntryInfo[])null);
                     }
@@ -211,7 +213,7 @@ public class AtomFeedParser
             else {
                 type = p.next();
             }
-        }                
+        }
     }
 
     private final FeedInfo.LinkInfo parseLink(XmlPullParser p)
@@ -227,6 +229,33 @@ public class AtomFeedParser
         return li;
     }
 
+    private final static String getHref(String baseUri, String link) {
+      if ((link == null) || (link.length() == 0)) {
+        return baseUri;
+      }
+      if (link.toLowerCase().startsWith("http")) {
+        return link;
+      }
+
+      if (!link.startsWith("/")) {
+        if (!baseUri.endsWith("/")) {
+          baseUri += "/";
+        }
+        return baseUri + link;
+      }
+
+      int startIndex = baseUri.indexOf("//");
+      if (startIndex == -1) {
+        return link;
+      }
+
+      int endIndex = baseUri.indexOf("/", startIndex + 2);
+      if (endIndex != -1) {
+        baseUri = baseUri.substring(0, endIndex);
+      }
+
+      return baseUri + link;
+    }
 
     private final static boolean isOpenSearchLink(FeedInfo.LinkInfo li)
     {
@@ -251,7 +280,7 @@ public class AtomFeedParser
     private final static boolean isThumbnailLink(FeedInfo.LinkInfo li)
     {
         String rel = li.getAttribute("rel");
-        return 
+        return
             ((rel != null) &&
              ("http://opds-spec.org/thumbnail".equals(rel) ||
               "http://opds-spec.org/opds-cover-image-thumbnail".equals(rel) ||
