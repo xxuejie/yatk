@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 public class ConnectUtils
 {
-    public final static boolean wifiEnabled
+    public boolean wifiEnabled
         (Context ctx, boolean use3g)
     {
         if (use3g) {
@@ -32,7 +32,7 @@ public class ConnectUtils
     // ConnectivytManager class to enable waking up
     // the wifi.
 
-    public final static WifiLock newWifiLock
+    public WifiLock newWifiLock
         (Context ctx, String tag, boolean use3g)
     {
         if (!wifiEnabled(ctx, use3g)) {
@@ -52,13 +52,13 @@ public class ConnectUtils
         return new WifiLock(actuallock);
     }
 
-    public final static boolean acquire(WifiLock wl)
+    public boolean acquire(WifiLock wl)
     { return acquirelock(wl.m_lock); }
 
-    public final static boolean acquire(WifiLock wl, long timeout)
+    public boolean acquire(WifiLock wl, long timeout)
     { return acquirelock(wl.m_lock, timeout); }
 
-    public final static boolean release(WifiLock wl)
+    public boolean release(WifiLock wl)
     {
         if (wl == null) { return true; }
         // play it safe
@@ -68,21 +68,21 @@ public class ConnectUtils
         return true;
     }
 
-    public final static boolean setReferenceCounted
+    public boolean setReferenceCounted
         (WifiLock wl, boolean v)
     { return setref(wl.m_lock, v); }
 
-    public final static boolean isHeld(WifiLock wl)
+    public boolean isHeld(WifiLock wl)
     { return isheld(wl.m_lock); }
 
     public final static class WifiLock
     {
-        private WifiLock(Object l)
+        public WifiLock(Object l)
         { m_lock = l; }
         private final Object m_lock;
     }
 
-    public final static boolean waitForService
+    public boolean waitForService
         (Context ctx, long timeout, boolean use3g)
     {
         if (!wifiEnabled(ctx, use3g)) {
@@ -125,12 +125,12 @@ public class ConnectUtils
     }
 
     /// private methods only from here
-    private final static synchronized void botherMeAfter(long msec)
+    private synchronized void botherMeAfter(long msec)
     { s_botherme = msec; }
-    private final static synchronized boolean dontBotherMe(long now)
+    private synchronized boolean dontBotherMe(long now)
     { return (now < s_botherme); }
 
-    private final static boolean isConnected
+    private boolean isConnected
         (ConnectivityManager cm, boolean use3g)
     {
         NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -146,7 +146,7 @@ public class ConnectUtils
         return ni.isConnected();
     }
 
-    private final static Object newlock
+    private Object newlock
         (ConnectivityManager cm, String tag)
     {
         try {
@@ -164,7 +164,7 @@ public class ConnectUtils
         }
     }
 
-    private final static boolean isheld(Object lock)
+    private boolean isheld(Object lock)
     {
         try {
             Method isheldmethod =
@@ -178,7 +178,7 @@ public class ConnectUtils
         }
     }
 
-    private final static boolean acquirelock(Object lock)
+    private boolean acquirelock(Object lock)
     {
         try {
             Method acquiremethod =
@@ -192,7 +192,7 @@ public class ConnectUtils
         }
     }
 
-    private final static boolean acquirelock(Object lock, long msec)
+    private boolean acquirelock(Object lock, long msec)
     {
         try {
             Method acquiremethod =
@@ -206,7 +206,7 @@ public class ConnectUtils
         }
     }
 
-    private final static boolean setref(Object lock, boolean v)
+    private boolean setref(Object lock, boolean v)
     {
         try {
             Method acquiremethod =
@@ -220,7 +220,7 @@ public class ConnectUtils
         }
     }
 
-    private final static boolean releaselock(Object lock)
+    private boolean releaselock(Object lock)
     {
         try {
             Method releasemethod =

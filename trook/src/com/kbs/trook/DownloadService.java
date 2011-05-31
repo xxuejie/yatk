@@ -1,25 +1,24 @@
 package com.kbs.trook;
 
-import android.app.IntentService;
-import android.content.Intent;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.util.Log;
-import android.net.Uri;
-import android.net.ConnectivityManager;
-import android.widget.Toast;
-import android.content.SharedPreferences;
-
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.File;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.HttpURLConnection;
 import java.util.List;
 
+import android.app.IntentService;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.kbs.util.ConnectUtils;
+import com.kbs.util.ConnectUtilsProvider;
 
 public class DownloadService
     extends IntentService
@@ -62,24 +61,24 @@ public class DownloadService
 
         FileOutputStream out = null;
         InputStream inp = null;
-        if (!ConnectUtils.wifiEnabled(this, use3g)) {
+        if (!connectUtils.wifiEnabled(this, use3g)) {
             bail("sorry, please turn on wifi");
             return;
         }
 
         ConnectUtils.WifiLock wakelock = null;
-        wakelock = ConnectUtils.newWifiLock
+        wakelock = connectUtils.newWifiLock
             (this, TAG+hashCode(), use3g);
         if (wakelock == null) {
             bail("sorry, could not create new wifi lock");
             return;
         }
-        if (!ConnectUtils.setReferenceCounted(wakelock, true)) {
+        if (!connectUtils.setReferenceCounted(wakelock, true)) {
             bail("Sorry, could not set refcount on lock");
             return;
         }
 
-        if (!ConnectUtils.acquire(wakelock)) {
+        if (!connectUtils.acquire(wakelock)) {
             bail("Sorry, could not acquire wifi lock");
             return;
         }
@@ -87,7 +86,7 @@ public class DownloadService
         // protect the rest of this with a finally
         boolean ok = false;
         try {
-            if (!ConnectUtils.waitForService
+            if (!connectUtils.waitForService
                 (this, TIMEOUT_WAIT, use3g)) {
                 bail("sorry, network was not established");
                 return;
@@ -149,7 +148,7 @@ public class DownloadService
                     makeFileFromTarget(target).delete();
                 } catch (Throwable ign) {}
             }
-            ConnectUtils.release(wakelock);
+            connectUtils.release(wakelock);
         }
 
         // Finally, if we have something that can view our
@@ -225,6 +224,8 @@ public class DownloadService
                 (this, mError, Toast.LENGTH_LONG).show();
         }
     }
+    
+    private ConnectUtils connectUtils = new ConnectUtilsProvider().get();
 
     private static int s_id = 1;
 

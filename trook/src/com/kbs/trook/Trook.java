@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.kbs.util.ConnectUtils;
+import com.kbs.util.ConnectUtilsProvider;
 import com.kbs.util.NookUtils;
 
 public class Trook extends Activity
@@ -184,17 +185,17 @@ public class Trook extends Activity
 
             if (m_wifireflock != null) {
                 int i = 0;
-                while (ConnectUtils.isHeld(m_wifireflock)
+                while (connectUtils.isHeld(m_wifireflock)
                        && (i++ < max)) {
-                    ConnectUtils.release(m_wifireflock);
+                    connectUtils.release(m_wifireflock);
                 }
                 m_wifireflock = null;
             }
             if (m_wifitimelock != null) {
                 int i = 0;
-                while (ConnectUtils.isHeld(m_wifitimelock)
+                while (connectUtils.isHeld(m_wifitimelock)
                        && (i++ < max)) {
-                    ConnectUtils.release(m_wifitimelock);
+                    connectUtils.release(m_wifitimelock);
                 }
             }
             m_wifitimelock = null;
@@ -358,7 +359,7 @@ public class Trook extends Activity
     {
         boolean use3g = is3GEnabled();
         // First a sanity check.
-        if (!ConnectUtils.wifiEnabled(this, use3g)) {
+        if (!connectUtils.wifiEnabled(this, use3g)) {
             if (use3g) {
                 return new WifiStatus
                     (false, "Please exit airplane_mode\nfrom the Settings");
@@ -373,26 +374,26 @@ public class Trook extends Activity
             // Step 1: create both locks as needed
             if (m_wifireflock == null) {
                 m_wifireflock =
-                    ConnectUtils.newWifiLock
+                    connectUtils.newWifiLock
                     (this, TAG+"-refc-"+hashCode(), use3g);
                 if (m_wifireflock == null) {
                     return new WifiStatus
                         (false, "Unable to create network lock, sorry");
                 }
-                if (!ConnectUtils.setReferenceCounted(m_wifireflock, true)) {
+                if (!connectUtils.setReferenceCounted(m_wifireflock, true)) {
                     return new WifiStatus
                         (false, "Unable to set refcount on network lock");
                 }
             }
             if (m_wifitimelock == null) {
                 m_wifitimelock =
-                    ConnectUtils.newWifiLock
+                    connectUtils.newWifiLock
                     (this, TAG+"-timed-"+hashCode(), use3g);
                 if (m_wifitimelock == null) {
                     return new WifiStatus
                         (false, "Unable to create networktimelock, sorry");
                 }
-                if (!ConnectUtils.setReferenceCounted
+                if (!connectUtils.setReferenceCounted
                     (m_wifitimelock, false)) {
                     return new WifiStatus
                         (false, "Unable to set refcount on timelock");
@@ -400,7 +401,7 @@ public class Trook extends Activity
             }
 
             // Step 2: bump up refcount on the refcounted lock
-            if (!ConnectUtils.acquire(m_wifireflock)) {
+            if (!connectUtils.acquire(m_wifireflock)) {
                 return new WifiStatus
                     (false, "Unable to acquire reference on network lock");
             }
@@ -410,7 +411,7 @@ public class Trook extends Activity
             boolean success = false;
             try {
                 success =
-                    ConnectUtils.waitForService
+                    connectUtils.waitForService
                     (this,
                      getPrefsLong
                      (PREFS_WIFI_TIMEOUT, DEFAULT_WIFI_TIMEOUT),
@@ -420,7 +421,7 @@ public class Trook extends Activity
             }
             finally {
                 if (!success) {
-                    ConnectUtils.release(m_wifireflock);
+                    connectUtils.release(m_wifireflock);
                 }
             }
         }
@@ -437,7 +438,7 @@ public class Trook extends Activity
             // First, acquire a timeout lock just so we give ourselves
             // some time before someone else needs the network
             try {
-                ConnectUtils.acquire
+                connectUtils.acquire
                     (m_wifitimelock,
                      getPrefsLong
                      (PREFS_WIFI_HOLDON, DEFAULT_WIFI_HOLDON));
@@ -445,7 +446,7 @@ public class Trook extends Activity
             finally {
                 // No matter what, remove the reference to the
                 // refcounted lock
-                ConnectUtils.release(m_wifireflock);
+                connectUtils.release(m_wifireflock);
             }
         }
     }
@@ -1460,6 +1461,8 @@ public class Trook extends Activity
         private final boolean m_status;
         private final String m_message;
     }
+    
+    private ConnectUtils connectUtils = new ConnectUtilsProvider().get();
 
     private SharedPreferences m_preferences;
     private FeedManager m_feedmanager;
