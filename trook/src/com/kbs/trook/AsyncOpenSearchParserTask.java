@@ -1,6 +1,7 @@
 package com.kbs.trook;
 
 import com.kbs.backport.AsyncTask;
+import com.kbs.util.UrlUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -104,7 +105,7 @@ public class AsyncOpenSearchParserTask
             (P.getAttribute(p, "template") != null)) {
             FeedInfo.SearchInfo si =
                 new FeedInfo.SearchInfo
-                (m_fi, P.getAttribute(p, "template"));
+                (m_fi, UrlUtils.getHref(m_uri, P.getAttribute(p, "template")));
             m_fi.setSearch(si);
             publishProgress(si);
         }

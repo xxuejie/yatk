@@ -1461,7 +1461,7 @@ public class Trook extends Activity
         private final boolean m_status;
         private final String m_message;
     }
-    
+
     private ConnectUtils connectUtils = new ConnectUtilsProvider().get();
 
     private SharedPreferences m_preferences;

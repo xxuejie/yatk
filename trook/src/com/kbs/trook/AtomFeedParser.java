@@ -9,6 +9,8 @@ import org.apache.http.client.utils.URIUtils;
 
 import android.util.Log;
 
+import com.kbs.util.UrlUtils;
+
 public class AtomFeedParser
     implements IFeedParser
 {
@@ -79,7 +81,7 @@ public class AtomFeedParser
                         URI base = new URI(fpl.getResolvePath());
                         URI sref =
                             URIUtils.resolve(base, li.getAttribute("href"));
-                        fpl.setOpenSearchUrl(getHref(uri, sref.toString()));
+                        fpl.setOpenSearchUrl(UrlUtils.getHref(uri, sref.toString()));
                         // This is a very goofy way to do this, I'm sorry
                         fpl.publishProgress1((FeedInfo.EntryInfo[])null);
                     }
@@ -90,7 +92,7 @@ public class AtomFeedParser
                 // lexcycle/stanza embeds it directly, simpler...
                 else if (isStanzaSearchLink(li)) {
                     // Log.d(TAG, "Found a stanza search link");
-                    fpl.setStanzaSearchUrl(li.getAttribute("href"));
+                    fpl.setStanzaSearchUrl(UrlUtils.getHref(uri, li.getAttribute("href")));
                     fpl.publishProgress1((FeedInfo.EntryInfo[])null);
                 }
             }
@@ -227,34 +229,6 @@ public class AtomFeedParser
         }
         P.skipThisBlock(p);
         return li;
-    }
-
-    private final static String getHref(String baseUri, String link) {
-      if ((link == null) || (link.length() == 0)) {
-        return baseUri;
-      }
-      if (link.toLowerCase().startsWith("http")) {
-        return link;
-      }
-
-      if (!link.startsWith("/")) {
-        if (!baseUri.endsWith("/")) {
-          baseUri += "/";
-        }
-        return baseUri + link;
-      }
-
-      int startIndex = baseUri.indexOf("//");
-      if (startIndex == -1) {
-        return link;
-      }
-
-      int endIndex = baseUri.indexOf("/", startIndex + 2);
-      if (endIndex != -1) {
-        baseUri = baseUri.substring(0, endIndex);
-      }
-
-      return baseUri + link;
     }
 
     private final static boolean isOpenSearchLink(FeedInfo.LinkInfo li)

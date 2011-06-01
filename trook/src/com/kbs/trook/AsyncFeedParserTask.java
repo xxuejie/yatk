@@ -124,14 +124,14 @@ public class AsyncFeedParserTask
     private boolean parse(Reader inp)
         throws IOException, XmlPullParserException
     {
-/*      BufferedReader reader = new BufferedReader(inp);
+      BufferedReader reader = new BufferedReader(inp);
       StringBuilder l = new StringBuilder();
       String tmp;
       while ((tmp = reader.readLine()) != null) {
         l.append(tmp).append("\n");
       }
       try {
-        PrintWriter writer = new PrintWriter(new FileWriter("/system/media/sdcard/my documents/downloads/"
+        PrintWriter writer = new PrintWriter(new FileWriter("/sdcard/"
           + System.currentTimeMillis() + ".xml"));
         writer.write(l.toString());
         writer.flush();
@@ -139,7 +139,7 @@ public class AsyncFeedParserTask
       } catch (UnsupportedEncodingException e) {
       } catch (IOException e) {
       }
-      inp = new StringReader(l.toString());*/
+      inp = new StringReader(l.toString());
 
         XmlPullParser p = Xml.newPullParser();
         p.setInput(inp);
