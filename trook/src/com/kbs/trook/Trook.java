@@ -994,11 +994,17 @@ public class Trook extends Activity
         // this.
 
 
-        String author = ei.getAuthor();
+/*        String author = ei.getAuthor();
         if ((author == null) || (author.length() == 0)) {
           author = "Unknown";
         }
-        author = FileNameUtil.regularFileName(author);
+        author = FileNameUtil.regularFileName(author);*/
+
+        String category = ei.getCategory();
+        if ((category == null) || (category.length() == 0)) {
+          category = "\u5176\u4ED6";
+        }
+        category = FileNameUtil.regularFileName(category);
 
         // Determine a top-level root.
         String root;
@@ -1018,7 +1024,7 @@ public class Trook extends Activity
                 type_suffix = ".epub"; // oh well.
             }
             // ah, what an ugly function name
-            author = fileSafe(lastNameify(author));
+            category = fileSafe(lastNameify(category));
         }
         else if (isAnAudio(type)) {
             root =
@@ -1054,10 +1060,10 @@ public class Trook extends Activity
         }
 
         if (suffix == null) {
-            return root + "/"+author+"/"+title+type_suffix;
+            return root + "/"+category+"/"+title+type_suffix;
         }
         else {
-            return root +"/"+author+"/"+title+suffix;
+            return root +"/"+category+"/"+title+suffix;
         }
     }
 

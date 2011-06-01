@@ -100,6 +100,12 @@ public class FeedInfo
         { m_iconuri = s; }
         public String getIconUri()
         { return m_iconuri; }
+        public void setCategory(String c) {
+          m_category = c;
+        }
+        public String getCategory() {
+          return m_category;
+        }
 
         private final FeedInfo m_fi;
         private String m_title;
@@ -111,6 +117,7 @@ public class FeedInfo
         private List<LinkInfo> m_links =
             new LinkedList<LinkInfo>();
         private Date m_updated;
+        private String m_category;
     }
 
     public final static class SearchInfo
@@ -134,7 +141,7 @@ public class FeedInfo
             catch (IOException ioe) {
                 qe = query;
             }
-            
+
             return
                 m_template.replace("{searchTerms}", qe);
         }
@@ -157,6 +164,7 @@ public class FeedInfo
         { return m_attrs.get(key); }
         public void setAttribute(String key, String val)
         { m_attrs.put(key, val); }
+        @Override
         public String toString()
         {
             StringBuffer sb = new StringBuffer("link: ");

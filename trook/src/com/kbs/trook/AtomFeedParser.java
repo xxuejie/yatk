@@ -143,6 +143,9 @@ public class AtomFeedParser
                 else if ("id".equals(curtag)) {
                     ei.setId(P.collectText(p));
                 }
+                else if ("category".equals(curtag)) {
+                    parseCategory(ei, p);
+                }
                 else if ("link".equals(curtag)) {
                     FeedInfo.LinkInfo li = parseLink(p);
                     ei.addLink(li);
@@ -185,6 +188,18 @@ public class AtomFeedParser
         }
         // hm, reached end without parsing -- just return
         Log.d(TAG, "Bopped off the end of an entry");
+    }
+
+    private final void parseCategory(FeedInfo.EntryInfo ei, XmlPullParser p)
+        throws IOException, XmlPullParserException {
+        P.assertStart(p, "category");
+        for (int i = 0; i < p.getAttributeCount(); i++) {
+          if ("term".equals(p.getAttributeName(i))) {
+            ei.setCategory(p.getAttributeValue(i));
+            break;
+          }
+        }
+        P.skipThisBlock(p);
     }
 
     private final void parseEntryAuthor(FeedInfo.EntryInfo ei, XmlPullParser p)

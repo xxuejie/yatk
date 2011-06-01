@@ -124,7 +124,7 @@ public class AsyncFeedParserTask
     private boolean parse(Reader inp)
         throws IOException, XmlPullParserException
     {
-/*      BufferedReader reader = new BufferedReader(inp);
+      BufferedReader reader = new BufferedReader(inp);
       StringBuilder l = new StringBuilder();
       String tmp;
       while ((tmp = reader.readLine()) != null) {
@@ -139,7 +139,7 @@ public class AsyncFeedParserTask
       } catch (UnsupportedEncodingException e) {
       } catch (IOException e) {
       }
-      inp = new StringReader(l.toString());*/
+      inp = new StringReader(l.toString());
 
         XmlPullParser p = Xml.newPullParser();
         p.setInput(inp);
